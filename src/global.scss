@@ -24,3 +24,15 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.monthview-primary-with-event {
+    background-color: #ffffff !important;
+    color: rgb(0, 0, 0) !important;
+  }
+
+  .monthview-selected {
+    background-color: #009900 !important;
+    color: #ffffff !important;
+  }
+
+  

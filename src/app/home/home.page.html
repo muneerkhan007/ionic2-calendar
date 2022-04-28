@@ -1,20 +1,128 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Booking
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-segment [(ngModel)]="calendar.mode">
+    <ion-segment-button value="month">
+      <ion-label>Month</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="week">
+      <ion-label>Week</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="day">
+      <ion-label>Day</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+ 
+  <ion-row>
+    <ion-col size="4">
+      <ion-button (click)="createRandomEvents()" expand="block" fill="outline">
+        Add random
+      </ion-button>
+    </ion-col>
+    <ion-col size="4">
+      <ion-button (click)="addEvent()" expand="block" fill="outline">
+        Add event
+      </ion-button>
+    </ion-col>
+    <ion-col size="4">
+      <ion-button (click)="removeEvents()" expand="block" fill="outline">
+        Remove all
+      </ion-button>
+    </ion-col>
+  </ion-row>
+ 
+  <ion-row>
+    <!-- Move back one screen of the slides -->
+    <ion-col size="2">
+      <ion-button fill="clear" (click)="back()">
+        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-col>
+ 
+    <ion-col size="8" class="ion-text-center">
+      <h2>{{ viewTitle }}</h2>
+    </ion-col>
+ 
+    <!-- Move forward one screen of the slides -->
+    <ion-col size="2">
+      <ion-button fill="clear" (click)="next()">
+        <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+ 
+  
+  <ng-template #monthviewDisplayEventTemplate let-view="view" let-row="row" let-col="col" >
+    {{view.dates[row*7+col].label}}
+    <div *ngIf="view.dates[row*7+col].date as selDate" (click)="monthDateClick(view.dates[row*7+col])">
+      <span *ngFor="let event of view.dates[row*7+col].events" >
+        <span class="event {{event.color}}" *ngIf="( event.startTime | date: 'shortDate') === (selDate | date: 'shortDate' )">
+        </span>
+      </span>
+    </div>
+</ng-template>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+<ng-template #weekAllDayTemplate let-day="day" let-eventTemplate="eventTemplate">
+  <div *ngFor="let displayEvent of day.events">
+    <span class="w-event {{displayEvent.event.color}}"> 
+    </span>
   </div>
+</ng-template>
+
+<ng-template #dayviewAllDayEventSectionTemplate let-allDayEvents="allDayEvents" let-eventTemplate="eventTemplate">
+  <div *ngFor="let displayEvent of allDayEvents; let eventIndex=index">
+    <span class="d-event {{displayEvent.event.color}}">
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #dayviewAllDayEventSectionTemplate let-allDayEvents="allDayEvents" let-eventTemplate="eventTemplate">
+  <div *ngFor="let displayEvent of allDayEvents; let eventIndex=index">
+    <span class="d-event {{displayEvent.event.color}}">
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #dayAllDayEventTemplate let-displayEvent="displayEvent">
+  {{displayEvent.event.title}}
+</ng-template>
+
+<ng-template #weekviewNormalEventTemplate let-displayEvent="displayEvent">
+  <div class="weekEvent {{displayEvent.event.color}}">{{displayEvent.event.title}}</div>
+  <!-- <div class="calendar-event-inner">{{displayEvent.event.title}}</div> -->
+</ng-template>
+
+<ng-template #dayviewNormalEventTemplate let-displayEvent="displayEvent">
+    <div class="weekEvent {{displayEvent.event.color}}">{{displayEvent.event.title}}</div>
+</ng-template>
+
+
+  <calendar
+    [eventSource]="eventSource"
+    [calendarMode]="calendar.mode"
+    [currentDate]="calendar.currentDate"
+    [monthviewDisplayEventTemplate]="monthviewDisplayEventTemplate"
+    [weekviewAllDayEventSectionTemplate]="weekAllDayTemplate"
+    [weekviewAllDayEventTemplate]="weekAllDayEventTemplate"
+    [weekviewNormalEventTemplate]="weekviewNormalEventTemplate"
+    [dayviewAllDayEventTemplate]="dayAllDayEventTemplate"
+    [dayviewAllDayEventSectionTemplate]="dayviewAllDayEventSectionTemplate"
+    [dayviewNormalEventTemplate]="dayviewNormalEventTemplate"
+    (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)"
+    (onTimeSelected)="onTimeSelected($event)"
+    startHour="6"
+    endHour="20"
+    step="30"
+    startingDayWeek="1"
+  >
+  </calendar>
+ 
 </ion-content>

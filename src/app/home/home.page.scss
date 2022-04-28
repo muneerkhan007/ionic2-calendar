@@ -25,3 +25,56 @@
 #container a {
   text-decoration: none;
 }
+
+
+.d-event {
+  display: block; 
+  width: 100%; 
+  height: 7px; 
+  border-radius: 2px;
+  margin-bottom: 2px;
+
+}
+
+.event {
+    display: inline-block; 
+    width: 8px; 
+    height: 8px; 
+    border-radius: 8px;
+    margin-right: 2px;
+}
+
+.w-event {
+  display: block; 
+  width: 100%; 
+  height: 5px; 
+  border-radius: 2px;
+  margin-bottom: 2px;
+}
+
+
+.one {
+  background: red;
+} 
+
+.three {
+  background: black;
+} 
+
+.two {
+  background: blue;
+} 
+
+.four {
+  background: green;
+}
+
+.weekEvent {
+    overflow: hidden;
+    color: white;
+    height: 100%;
+    width: 100%;
+    padding: 2px;
+    line-height: 15px;
+    text-align: initial;
+}
